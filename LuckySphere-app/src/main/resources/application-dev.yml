@@ -61,15 +61,17 @@ dubbo:
   application:
     name: big-market
     version: 1.0
+    qos-enable: false   # 禁用qos检查
   registry:
     id: nacos-registry
     address: nacos://${address.RUN}:8848
+    subscribe: false   # 禁用订阅功能
   protocol:
     name: dubbo
     port: -1
     group: big-market
   scan:
-    base-packages: cn.wenzhuo4657.trigger.api
+    base-packages: cn.wenzhuo4657.trigger
 
 
 zookeeper:

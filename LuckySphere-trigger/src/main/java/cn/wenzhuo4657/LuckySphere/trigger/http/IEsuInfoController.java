@@ -3,8 +3,6 @@ package cn.wenzhuo4657.LuckySphere.trigger.http;
 
 import cn.wenzhuo4657.LuckySphere.querys.entity.UserRaffleOrderVO;
 import cn.wenzhuo4657.LuckySphere.querys.repository.IRaffleActivityOrderRepository;
-import cn.wenzhuo4657.LuckySphere.querys.repository.IUserAwardRecordRepository;
-import cn.wenzhuo4657.LuckySphere.querys.repository.IUserBehaviorRebateOrderRepository;
 import cn.wenzhuo4657.LuckySphere.querys.repository.IUserRaffleOrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +24,12 @@ import java.util.List;
 public class IEsuInfoController {
 
 // todo 这里的接口都访问不到
-    @Autowired
-    private IUserBehaviorRebateOrderRepository userBehaviorRebateOrderRepository;
+
 
 
     @Autowired
     private IRaffleActivityOrderRepository raffleActivityOrderRepository;
 
-    @Autowired
-    private IUserAwardRecordRepository userAwardRecordRepository;
 
     @Autowired
     private IUserRaffleOrderRepository  userRaffleOrderRepository;

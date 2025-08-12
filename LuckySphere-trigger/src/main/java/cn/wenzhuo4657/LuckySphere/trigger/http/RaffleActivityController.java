@@ -36,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -57,10 +58,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @CrossOrigin("*")
 @RequestMapping("/api/${app.config.api-version}/raffle/activity/")
 @DubboService(version = "1.0")
+
 public class RaffleActivityController implements IRaffleActivityService {
     private final SimpleDateFormat dateFormatDay=new SimpleDateFormat("yyyyMMdd");
     private final SimpleDateFormat dateFormat=new SimpleDateFormat("yyyyMMddHHmmss");
 
+//    todo 库存扣减逻辑梳理
     @Resource
     private IRaffleActivityPartakeService raffleActivityPartakeService;
     @Resource
@@ -213,7 +216,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                     .data(true)
                     .build();
         }  catch (AppException e) {
-            log.error("日历签到返利异常 userId:{}  e:{} ", userId, e);
+            log.error("日历签到返利异常 userId:{}  , e:{} ", userId, e.toString());
             return Response.<Boolean>builder()
                     .code(e.getCode())
                     .info(e.getInfo())

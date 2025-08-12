@@ -10,6 +10,7 @@ import cn.wenzhuo4657.LuckySphere.tigger.api.reponse.Response;
 import cn.wenzhuo4657.LuckySphere.types.enums.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
