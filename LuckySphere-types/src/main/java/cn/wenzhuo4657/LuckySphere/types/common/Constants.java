@@ -12,6 +12,9 @@ public  class Constants {
 
         public static String ACTIVITY_KEY = "big_market_activity_key_";
         public static String ACTIVITY_SKU_KEY = "big_market_activity_sku_key_";
+        /**
+         * 抽奖活动次数表
+         */
         public static String ACTIVITY_COUNT_KEY = "big_market_activity_count_key_";
 
         /**

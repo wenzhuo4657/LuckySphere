@@ -76,7 +76,7 @@ public interface IActivityRepository {
      *    尽管我们使用了限流器，但依然不能忽略程序阻塞的情况下导致限流器失效（限流周期内并未完成请求）
      *
      * */
-    UserRaffleOrderEntity queryNoUsedRaffleOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity);
+    List<UserRaffleOrderEntity> queryNoUsedRaffleOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity);
 
 
     /**

@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: wenzhuo4657
@@ -50,18 +51,21 @@ public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPa
 
 
 
-        UserRaffleOrderEntity userRaffleOrderEntity = activityRepository.queryNoUsedRaffleOrder(partakeRaffleActivityEntity);
-        if (null != userRaffleOrderEntity) {
+        List<UserRaffleOrderEntity> userRaffleOrderList = activityRepository.queryNoUsedRaffleOrder(partakeRaffleActivityEntity);
+        if (null != userRaffleOrderList) {
+            UserRaffleOrderEntity userRaffleOrderEntity = userRaffleOrderList.get(0);
+
+            log.info("查询到未使用的活动订单 userId:{} activityId:{} userRaffleOrderEntity:{}，剩余未使用订单数量: {}", userId, activityId, JSON.toJSONString(userRaffleOrderEntity),userRaffleOrderList.size()-1);
             return userRaffleOrderEntity;
         }
-        log.info("创建参与活动订单 userId:{} activityId:{} userRaffleOrderEntity:{}", userId, activityId, JSON.toJSONString(userRaffleOrderEntity));
+
 
 //        不存在活动订单，尝试从活动额度中扣去
         CreatePartakeOrderAggregate createPartakeOrderAggregate = this.doFilterAccount(userId, activityId, currentDate);
 
         UserRaffleOrderEntity userRaffleOrder = this.buildUserRaffleOrder(userId, activityId, currentDate);
 
-        createPartakeOrderAggregate.setUserRaffleOrderEntity(userRaffleOrder);
+       createPartakeOrderAggregate.setUserRaffleOrderEntity(userRaffleOrder);
 
         activityRepository.saveCreatePartakeOrderAggregate(createPartakeOrderAggregate);
 

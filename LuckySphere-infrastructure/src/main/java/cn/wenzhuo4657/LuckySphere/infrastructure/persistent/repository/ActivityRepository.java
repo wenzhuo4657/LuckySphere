@@ -334,24 +334,30 @@ public class ActivityRepository implements IActivityRepository {
     }
 
     @Override
-    public UserRaffleOrderEntity queryNoUsedRaffleOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity) {
+    public List<UserRaffleOrderEntity> queryNoUsedRaffleOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity) {
         UserRaffleOrder userRaffleOrderReq = new UserRaffleOrder();
         userRaffleOrderReq.setUserId(partakeRaffleActivityEntity.getUserId());
         userRaffleOrderReq.setActivityId(partakeRaffleActivityEntity.getActivityId());
 
         List<UserRaffleOrder> userRaffleOrderList = userRaffleOrderDao.queryNoUsedRaffleOrder(userRaffleOrderReq);
         if (userRaffleOrderList.size()==0) return null;
-        UserRaffleOrder userRaffleOrderRes = userRaffleOrderList.get(0);
-        UserRaffleOrderEntity userRaffleOrderEntity = new UserRaffleOrderEntity();
-        userRaffleOrderEntity.setId(userRaffleOrderRes.getId());
-        userRaffleOrderEntity.setUserId(userRaffleOrderRes.getUserId());
-        userRaffleOrderEntity.setActivityId(userRaffleOrderRes.getActivityId());
-        userRaffleOrderEntity.setActivityName(userRaffleOrderRes.getActivityName());
-        userRaffleOrderEntity.setStrategyId(userRaffleOrderRes.getStrategyId());
-        userRaffleOrderEntity.setOrderId(userRaffleOrderRes.getOrderId());
-        userRaffleOrderEntity.setOrderTime(userRaffleOrderRes.getOrderTime());
-        userRaffleOrderEntity.setOrderState(UserRaffleOrderStateVO.valueOf(userRaffleOrderRes.getOrderState()));
-        return userRaffleOrderEntity;
+
+        ArrayList<UserRaffleOrderEntity> objects = new ArrayList<>();
+        for (UserRaffleOrder userRaffleOrderRes : userRaffleOrderList){
+            UserRaffleOrderEntity userRaffleOrderEntity = new UserRaffleOrderEntity();
+            userRaffleOrderEntity.setId(userRaffleOrderRes.getId());
+            userRaffleOrderEntity.setUserId(userRaffleOrderRes.getUserId());
+            userRaffleOrderEntity.setActivityId(userRaffleOrderRes.getActivityId());
+            userRaffleOrderEntity.setActivityName(userRaffleOrderRes.getActivityName());
+            userRaffleOrderEntity.setStrategyId(userRaffleOrderRes.getStrategyId());
+            userRaffleOrderEntity.setOrderId(userRaffleOrderRes.getOrderId());
+            userRaffleOrderEntity.setOrderTime(userRaffleOrderRes.getOrderTime());
+            userRaffleOrderEntity.setOrderState(UserRaffleOrderStateVO.valueOf(userRaffleOrderRes.getOrderState()));
+            objects.add(userRaffleOrderEntity);
+
+        }
+
+        return objects;
     }
 
     @Override

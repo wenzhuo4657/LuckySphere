@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a32c18fc-047f-452c-b06b-d22430b38af6" name="更改" comment="fix: 日志打印异常">
+    <list default="true" id="a32c18fc-047f-452c-b06b-d22430b38af6" name="更改" comment="fix： 去除多余的两个es表">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LuckySphere-app/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-app/src/main/resources/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LuckySphere-domain/src/main/java/cn/wenzhuo4657/LuckySphere/domain/activity/service/partake/RaffleActivityPartakeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-domain/src/main/java/cn/wenzhuo4657/LuckySphere/domain/activity/service/partake/RaffleActivityPartakeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/RaffleActivityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/RaffleActivityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/RaffleStrategyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/RaffleStrategyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/UserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-trigger/src/main/java/cn/wenzhuo4657/LuckySphere/trigger/http/UserInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LuckySphere-types/src/main/java/cn/wenzhuo4657/LuckySphere/types/common/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/LuckySphere-types/src/main/java/cn/wenzhuo4657/LuckySphere/types/common/Constants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,6 +232,10 @@
       <workItem from="1754109869946" duration="10522000" />
       <workItem from="1754202127350" duration="9311000" />
       <workItem from="1754272694077" duration="181000" />
+      <workItem from="1754994734265" duration="149000" />
+      <workItem from="1755048688610" duration="93000" />
+      <workItem from="1755062130446" duration="5447000" />
+      <workItem from="1755135942470" duration="365000" />
     </task>
     <task id="LOCAL-00001" summary="fix: sharding-jdbc依赖修复">
       <option name="closed" value="true" />
@@ -325,7 +325,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754113566093</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fix： 去除多余的两个es表">
+      <option name="closed" value="true" />
+      <created>1754994871670</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1754994871670</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +373,8 @@
     <MESSAGE value="fix: 重复签到没有正确响应值" />
     <MESSAGE value="feat: 异步发送mq消息" />
     <MESSAGE value="fix: 日志打印异常" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 日志打印异常" />
+    <MESSAGE value="fix： 去除多余的两个es表" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix： 去除多余的两个es表" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
