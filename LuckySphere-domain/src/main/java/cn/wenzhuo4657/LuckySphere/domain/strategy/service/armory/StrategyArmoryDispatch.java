@@ -107,25 +107,39 @@ public class StrategyArmoryDispatch extends AbstractStrategyAlgorithm {
     */
     public  void cacheStrategyAwardCount(Long strategyId, Integer awardId, Integer awardCount){
         String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+        log.info("缓存策略奖品库存，strategyId: {}, awardId: {}, awardCount: {}, Redis Key: {}", 
+                strategyId, awardId, awardCount, cacheKey);
         strategyRepository.cacheStrategyAwardCount(cacheKey,awardCount);
     }
 
     @Override
     protected void armoryAlgorithm(String key, List<StrategyAwardEntity> strategyAwardEntityList) {
+        log.info("开始构建策略概率分布表，Redis Key: {}, 奖品数量: {}", key, strategyAwardEntityList.size());
+        
         // 1. 概率最小值
         BigDecimal minAwardRate = minAwardRate(strategyAwardEntityList);
+        log.info("计算最小概率值: {}", minAwardRate);
+        
         // 2. 概率范围值
         BigDecimal rateRange = convert(minAwardRate.doubleValue());
+        log.info("概率范围值: {}", rateRange);
+        
         // 3. 装配策略分布表
         List<Integer> strategyAwardSearchRateTables = new ArrayList<>(rateRange.intValue());
         for (StrategyAwardEntity strategyAward : strategyAwardEntityList) {
             Integer awardId = strategyAward.getAwardId();
             BigDecimal awardRate = strategyAward.getAwardRate();
+            int fillCount = rateRange.multiply(awardRate).intValue();
+            log.info("奖品ID: {}, 概率: {}, 填充次数: {}", awardId, awardRate, fillCount);
+            
             // 计算出每个概率值需要存放到查找表的数量，循环填充
-            for (int i = 0; i < rateRange.multiply(awardRate).intValue(); i++) {
+            for (int i = 0; i < fillCount; i++) {
                 strategyAwardSearchRateTables.add(awardId);
             }
         }
+        
+        log.info("概率分布表构建完成，总大小: {}", strategyAwardSearchRateTables.size());
+        
         /**
          *  @author:wenzhuo4657
             des:
@@ -134,13 +148,17 @@ public class StrategyArmoryDispatch extends AbstractStrategyAlgorithm {
         随机的实质通过这两点实现，但更为重要的是后者，后者让策略分布范围增大有了实际的意义。
         */
         Collections.shuffle(strategyAwardSearchRateTables);//乱序处理
+        log.info("概率分布表乱序处理完成");
 
         // 3. 生成出Map集合，key值，对应的就是后续的概率值。通过概率来获得对应的奖品ID
         Map<Integer, Integer> shuffleStrategyAwardSearchRateTable = new LinkedHashMap<>(strategyAwardSearchRateTables.size());
         for (int i = 0; i < strategyAwardSearchRateTables.size(); i++) {
             shuffleStrategyAwardSearchRateTable.put(i, strategyAwardSearchRateTables.get(i));
         }
+        
+        log.info("存储策略概率分布表到Redis，Key: {}, 表大小: {}", key, shuffleStrategyAwardSearchRateTable.size());
         strategyRepository.storeStrategyAwardSearchRateTable(key, shuffleStrategyAwardSearchRateTable.size(), shuffleStrategyAwardSearchRateTable);
+        log.info("策略概率分布表存储完成，Redis Key: {}", key);
 
     }
     /**

@@ -7,6 +7,7 @@ import cn.wenzhuo4657.LuckySphere.domain.strategy.repository.IStrategyRepository
 import cn.wenzhuo4657.LuckySphere.types.common.Constants;
 import cn.wenzhuo4657.LuckySphere.types.enums.ResponseCode;
 import cn.wenzhuo4657.LuckySphere.types.exception.AppException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * @date: 2024/12/10
  * @description: 模板流程定义
  */
+@Slf4j
 public abstract class AbstractStrategyAlgorithm implements IStrategyDispatch,IStrategyArmory {
 
 
@@ -45,6 +47,7 @@ public abstract class AbstractStrategyAlgorithm implements IStrategyDispatch,ISt
         for (StrategyAwardEntity strategyAward:strategyAwardEntities){
             cacheStrategyAwardCount(strategyId,strategyAward.getAwardId(),strategyAward.getAwardCountSurplus());
         }
+        log.info("策略奖品库存缓存完成: {}");
 //          3,策略概率表装配
         armoryAlgorithm(String.valueOf(strategyId),strategyAwardEntities);
 

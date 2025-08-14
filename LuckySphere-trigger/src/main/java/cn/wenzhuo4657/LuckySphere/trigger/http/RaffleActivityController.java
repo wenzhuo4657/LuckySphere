@@ -98,8 +98,17 @@ public class RaffleActivityController implements IRaffleActivityService {
     public Response<Boolean> armory(@RequestParam("activityId") Long activityId) {
         try {
             log.info("活动装配，数据预热，开始 activityId:{}", activityId);
+            
+            // 活动SKU装配 - 缓存活动SKU库存信息
+            log.info("开始装配活动SKU信息 activityId:{}", activityId);
             activityArmory.assembleActivitySkuByActivityId(activityId);
+            log.info("活动SKU装配完成，已缓存活动SKU库存到Redis activityId:{}", activityId);
+            
+            // 策略装配 - 缓存策略奖品库存和概率分布表
+            log.info("开始装配抽奖策略信息 activityId:{}", activityId);
             strategyArmory.assembleLotteryStrategyByActivityId(activityId);
+            log.info("策略装配完成，已缓存策略奖品库存、概率分布表到Redis activityId:{}", activityId);
+            
             Response<Boolean> response = Response.<Boolean>builder()
                     .code(ResponseCode.SUCCESS.getCode())
                     .info(ResponseCode.SUCCESS.getInfo())

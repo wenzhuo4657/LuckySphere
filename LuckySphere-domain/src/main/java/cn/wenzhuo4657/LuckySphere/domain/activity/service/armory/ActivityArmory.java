@@ -49,13 +49,23 @@ public class ActivityArmory implements IActivityArmory, IActivityDispatch{
 
     @Override
     public boolean assembleActivitySkuByActivityId(Long activityId) {
+        log.info("开始装配活动SKU信息，activityId: {}", activityId);
         List<ActivitySkuEntity> activitySkuEntities = activityRepository.queryActivitySkuListByActivityId(activityId);
+        log.info("查询到活动SKU列表，activityId: {}, SKU数量: {}", activityId, activitySkuEntities.size());
+        
         for (ActivitySkuEntity activitySkuEntity:activitySkuEntities){
+            String cacheKey = Constants.RedisKey.ACTIVITY_SKU_STOCK_COUNT_KEY + activitySkuEntity.getSku();
+            log.info("缓存活动SKU库存，SKU: {}, 库存数量: {}, Redis Key: {}", 
+                    activitySkuEntity.getSku(), activitySkuEntity.getStockCountSurplus(), cacheKey);
             cacheActivitySkuStockCount(activitySkuEntity.getSku(), activitySkuEntity.getStockCountSurplus());
 
+            log.info("查询活动次数配置，activityCountId: {}", activitySkuEntity.getActivityCountId());
             activityRepository.queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
         }
+        
+        log.info("查询活动基础信息并缓存，activityId: {}", activityId);
         activityRepository.queryRaffleActivityByActivityId(activityId);
+        log.info("活动SKU装配完成，activityId: {}", activityId);
         return true;
     }
 }

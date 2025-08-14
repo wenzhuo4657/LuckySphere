@@ -74,10 +74,17 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> strategyAwardSearchRateTable) {
-
-        redissonService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY+key,rateRange);
-        RMap<Object, Object> map = redissonService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY +key);
+        String rateRangeKey = Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key;
+        String rateTableKey = Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + key;
+        
+        log.info("存储策略概率范围值，Redis Key: {}, 范围值: {}", rateRangeKey, rateRange);
+        redissonService.setValue(rateRangeKey, rateRange);
+        
+        log.info("存储策略概率分布表，Redis Key: {}, 表大小: {}", rateTableKey, strategyAwardSearchRateTable.size());
+        RMap<Object, Object> map = redissonService.getMap(rateTableKey);
         map.putAll(strategyAwardSearchRateTable);
+        
+        log.info("策略概率分布数据存储完成，范围Key: {}, 分布表Key: {}", rateRangeKey, rateTableKey);
     }
 
     @Override
@@ -201,9 +208,13 @@ public class StrategyRepository implements IStrategyRepository {
 
     @Override
     public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
-        if (redissonService.isExists(cacheKey))return;
-        redissonService.setAtomicLong(cacheKey,awardCount);
-
+        if (redissonService.isExists(cacheKey)) {
+            log.info("策略奖品库存已存在，跳过缓存，Redis Key: {}", cacheKey);
+            return;
+        }
+        log.info("缓存策略奖品库存，Redis Key: {}, 库存数量: {}", cacheKey, awardCount);
+        redissonService.setAtomicLong(cacheKey, awardCount);
+        log.info("策略奖品库存缓存完成，Redis Key: {}", cacheKey);
     }
 
 
